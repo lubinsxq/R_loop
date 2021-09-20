@@ -1,0 +1,25 @@
+#!/bin/bash
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+for i in *_R1_001_val_1.fq.gz
+do
+        echo $i
+        R2=${i/_R1_001_val_1/_R2_001_val_2}
+        echo $R2
+        name=${i/L001_R1_001_val_1.fq.gz/}
+        echo $name
+        bowtie2 --very-sensitive-local --no-unal --no-mixed  --phred33 -I 10 -X 700 --no-discordant -p 16 -x /data/abdelwao-lab/pastorea/bcbio/genomes/Hsapiens/hg38/bowtie2/hg38 --un-conc ${name}_bt2_unmapped -1 $i -2 $R2 -S ${name}_bt2_snstv.sam
+        samtools view -bS  ${name}_bt2_snstv.sam > ${name}_bt2_snstv.bam
+        samtools sort ${name}_bt2_snstv.bam -o ${name}_bt2_snstv.sorted.bam
+        rm ${name}_bt2_snstv.bam
+        samtools rmdup -s ${name}_bt2_snstv.sorted.bam ${name}_bt2_snstv.sorted.rd.bam
+        samtools index ${name}_bt2_snstv.sorted.rd.bam
+        rm ${name}_bt2_snstv.sam
+        rm ${name}_bt2_snstv.sorted.bam
+
+done
