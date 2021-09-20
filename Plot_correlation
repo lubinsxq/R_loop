@@ -1,0 +1,10 @@
+#!/bin/bash
+# Make heatmap of correlation btw each R_loop profile
+#BSUB -J myjobMPI
+#BSUB -n 6
+#BSUB -R span[ptile=6]
+#BSUB -R rusage[mem=64]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+plotHeatmap -m R_loop_Half_Million.npz -out R_loop_Half_Million.matrix.gz.pdf --dpi 1200 --colorMap Blues --missingDataColor white
