@@ -1,0 +1,11 @@
+#!/bin/bash
+# To calculate multibamsummary for pearson correlation check
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+
+multiBamSummary bins --bamfiles *.bam -o R_loop_Half_Million.npz
