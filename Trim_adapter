@@ -1,0 +1,15 @@
+#!/bin/bash
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 04:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+for i in *_R1_*.fastq.gz
+do
+  echo $i
+  R2=${i/R1/R2}
+  echo $R2
+  trim_galore --quality 15 -j 6  --fastqc --gzip  --illumina --path_to_cutadapt /home/lub2/anaconda3/envs/cutadaptenv/bin/cutadapt --paired $i $R2
+done
