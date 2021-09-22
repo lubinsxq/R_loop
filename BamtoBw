@@ -1,0 +1,14 @@
+#!/bin/bash
+# Convert Bam file into bw file to show in IGV
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+for i in *.bam
+do
+        echo $i
+        bamCoverage -b $i --effectiveGenomeSize 2913022398 --normalizeUsing CPM --smoothLength 50 --binSize 10 --scaleFactor 1 -p 12 -o ${i}.bw
+done
