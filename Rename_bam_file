@@ -1,0 +1,17 @@
+#!/bin/bash
+# rename file name
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+for i in *.bam
+do
+        echo $i
+        new_name=${i/_IGO_*.bam/}
+        echo $new_name
+        mv $i ${new_name}.bam
+
+done
