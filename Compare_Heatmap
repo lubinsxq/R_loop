@@ -1,0 +1,12 @@
+#!/bin/bash
+# To creat matrix between control and experiments of bigwig to whole genome
+#BSUB -J myjobMPI
+#BSUB -n 16
+#BSUB -R span[ptile=16]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+dir=/data/abdelwao-lab/bin/R_LOOP/082021_Raw/Merge_file_082021/Trim_file/500_K_BAM/hg38_bed
+computeMatrix  --referencePoint TSS -b 1000 -a 1000  -R $dir/hg38_bed/Homo_sapiens.GRCh38.93.gene.bed -S  K562_PH_Half_1.bam.bw K562_PH_Half_E_1.bam.bw \
+--skipZeros -p 6 -m 10000 -o K562_PH_HALF_CK_RH.matrix.gz
