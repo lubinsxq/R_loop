@@ -1,0 +1,15 @@
+#!/bin/bash
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+for i in *.bam
+do
+        echo $i
+        name=${i/.fastq_bt2_snstv.sorted.rd.bam/}
+        echo $name
+        macs2 callpeak -t $i -B --SPMR -g hs -q 1e-4 -f BAM  -n $name --keep-dup all --outdir ./MACS2_qe-4
+done
