@@ -1,0 +1,7 @@
+If you have BED file then it's a bit easier. It'd be something like:
+
+awk '{if($6 == "-") {$2 = $3 - 1} else {$3 = $2 + 1} print}' input.bed > output.bed
+For a GTF file it'd be something like:
+
+awk '{if($3 == "transcript") {if($7 == "-") {$2 = $3} else {$3 = $2} print}}' input.gtf > output.gtf'
+If there are comment lines then they'd need to be removed, either with grep or directly in awk.
