@@ -1,0 +1,1 @@
+awk '{if($6 == "-") {$3 = $2 + 1} else {$2 = $3 - 1} print}' Homo_sapiens.GRCh38.93.transcript.coding.bed > Homo_sapiens.GRCh38.93.transcript.coding.TTS.bed
