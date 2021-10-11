@@ -1,0 +1,12 @@
+#!/bin/bash
+# To creat matrix between control and experiments of bigwig to TSS
+#BSUB -J myjobMPI
+#BSUB -n 16
+#BSUB -R span[ptile=16]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+dir=/data/abdelwao-lab/bin/R_LOOP/082021_Raw/Merge_file_082021/Trim_file/500_K_BAM/hg38_bed
+computeMatrix reference-point --referencePoint TSS  -b 1000 -a 1000  -R $dir/Homo_sapiens.GRCh38.93.transcript.coding.TSS.bed  -S  Rloop2_S2.bw Rloop8_S8.bw\
+ --sortRegions descend --skipZeros -p 6 -o K562_PH_HALF_1_CK_RH.matrix_Ref.gz
