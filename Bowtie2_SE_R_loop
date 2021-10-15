@@ -1,0 +1,22 @@
+#!/bin/bash
+# Mapping single-end sequenced cut&tag data from R-ChIP
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 20:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+for i in *.fastq
+do
+        echo $i
+        bowtie2 --very-sensitive-local --no-unal  --phred33 -I 10 -X 700  -p 16 -x /data/abdelwao-lab/pastorea/bcbio/genomes/Hsapiens/hg38/bowtie2/hg38 --un-conc $i_bt2_unmapped  -U $i -S ${i}_bt2_snstv.sam
+        samtools view -bS  ${i}_bt2_snstv.sam > ${i}_bt2_snstv.bam
+        samtools sort ${i}_bt2_snstv.bam -o ${i}_bt2_snstv.sorted.bam
+        rm ${i}_bt2_snstv.bam
+        samtools rmdup -s ${i}_bt2_snstv.sorted.bam ${i}_bt2_snstv.sorted.rd.bam
+        samtools index ${i}_bt2_snstv.sorted.rd.bam
+        rm ${i}_bt2_snstv.sam
+        rm ${i}_bt2_snstv.sorted.bam
+
+done
