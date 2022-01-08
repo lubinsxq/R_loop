@@ -1,0 +1,13 @@
+#!/bin/bash
+#$ -cwd
+#$ -v PATH,LD_LIBRARY_PATH,CLASSPATH
+#$ -l m_mem_free=10G
+#$ -l tmp_free=50G
+for i in *R1*ME*.gz
+do
+        echo $i
+        R2=${i/R1/R2}
+        echo $R2
+        trim_galore --quality 15 -j 6  --fastqc --gzip  --illumina --path_to_cutadapt /grid/mills/home/xsun/miniconda3/envs/cutadaptenv/bin/cutadapt --paired $i $R2
+done
+exit 0
