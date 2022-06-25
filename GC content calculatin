@@ -1,0 +1,5 @@
+# gsub in awk will print the number of replacement, pattern is like this gsub(pattern,replacement,string)
+# extremely useful to calculate GC content and CpG island
+
+
+cat 100k_kit_replicarte_insersect_MINUS_PLUS_1K_summit_Slide_w50_s1_single_column_all_Fasta_2.bed| awk '{print $0,gsub(/GC/,"",$2),gsub(/CG/,"",$2),gsub(/G/,"",$2),gsub(/C/,"",$2)}' >100k_kit_replicarte_insersect_MINUS_PLUS_1K_summit_Slide_w50_s1_single_column_all_Fasta_2_GC_content.bed
