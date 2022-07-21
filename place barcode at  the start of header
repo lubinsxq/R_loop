@@ -1,0 +1,4 @@
+zcat 4_K562_PH_1_IGO_12787_3_S3_L001_R2_001.fastq.gz | head | sed -n 's/\(NB.*0:\)\(.*\+.*\)/\2:\1/gp' 
+# As to the backverse pattern, each pattern has to be enclosed with parenthesis with back slash escape character, meanwhile, digit 1~ 9 needs to presufix by 
+# back slash character to mean this is a backverse reuse. Please follow the instruction:$ echo "James Bond" | sed -E 's/(.*) (.*)/The name is \2, \1 \2./'
+# The name is Bond, James Bond.
