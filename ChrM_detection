@@ -1,0 +1,19 @@
+#!/bin/bash
+# Exclude mitochodiro chromatin DNA
+#BSUB -J myjobMPI
+#BSUB -n 12
+#BSUB -R span[ptile=12]
+#BSUB -R rusage[mem=4]
+#BSUB -W 04:00
+#BSUB -o %J.stdout
+#BSUB -eo %J.stderr
+mkdir ./ExcMito
+subfiles=`ls *.bam `
+for i in $subfiles
+do
+  echo $i
+  R2=${i/.bam/_ExChrM.bam}
+  echo $R2
+  samtools view -h $i | awk '{ if( $3 != "chrM" && $3 != "chrUn" ) { print $0 }}' | samtools view -Shb > ./ExcMito/$R2
+  samtools index ./ExcMito/$R2
+done
